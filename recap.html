@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .page {
+            width: 1000px;
+            height: 450px;
+            margin: auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #a30822;
+        }
+
+       .flex {
+            display: flex;
+        }
+
+        #carrousel {
+            width: 700px;
+            height: 400px;
+            margin: auto;
+        }
+
+        #minidraco, #draco, #dracolosse {
+            width: 400px;
+            height: 400px;
+            position: absolute;
+            right: 565px;
+            transition: 1s;
+            opacity : 0;
+        }
+
+        #minidraco {
+            z-index: 1;
+            opacity: 1;
+        }
+
+        #left-arrow, #right-arrow {
+            width: 70px;
+            height: 70px;
+            position: absolute;
+            top: 250px;
+        }
+
+        #right-arrow {
+            right: 420px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="page">
+        <h1>Evolution de Minidraco</h1>
+        <div class="flex" id="carrousel">
+            <div id="images">
+                <img id="minidraco" src="mini.jpg" alt="minidraco">                
+                <img id="draco" src="draco.jpg" alt="draco">
+                <img id="dracolosse" src="dracolosse.png" alt="dracolosse">
+            </div>
+            <div id="arrows">
+                <img id="left-arrow" src="Fleche-gauche.png" alt="flèche gauche">
+                <img id="right-arrow" src="fleche-droite.png" alt="flèche droite">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* On va essayer de réaliser un carroussel
+        v Il nous faudra 3 images. On aura également 2 flèches (dte et g)
+        v On affiche la 1ere image. On clique sur la flèche de dte(souris), on change cette image par la seconde et ainsi de suite. Quand on est sur la 3ème image, on arrive sur la première image. On peut faire pareil avec la flèche de gauche.
+
+         v Bonus 1: en appuyant sur la flèche droite ou gauche (clavier), on puisse faire défiler le slider, on puisse faire défiler le slider (utiliser un événement et détecter la touche pressée).
+
+         v Bonus 2 : Il faudrait obtenir une transition entre les slides (effet tapisserie ou opacité). 
+        
+         v Bonus 3 : avoir un défilement automatique toutes les 10 secondes */
+
+        var leftArrow = document.getElementById("left-arrow");
+        var rightArrow = document.getElementById("right-arrow");
+        var minidraco = document.getElementById("minidraco");
+        var draco = document.getElementById("draco");
+        var dracolosse = document.getElementById("dracolosse");
+        var tabImages = [minidraco, draco, dracolosse];
+        var i = 1;
+        var j = 0;
+
+        rightArrow.addEventListener("click", function() {
+            var right = tabImages[i % 3];
+            var j = i + 1;
+            var k = i + 2;
+            right.style.opacity = 1;                
+            right.style.zIndex = 1;
+            tabImages[k % 3].style.opacity = 0;
+            tabImages[j % 3].style.zIndex = 0;
+            tabImages[k % 3].style.zIndex = 0;
+            i++
+        });
+    
+        leftArrow.addEventListener("click", function() {
+            var left = tabImages[++i % 3];
+            var j = i + 1;
+            var k = j + 1;
+            left.style.opacity = 1;
+            left.style.zIndex = 1;    
+            tabImages[j % 3].style.opacity = 0;
+            tabImages[j % 3].style.zIndex = 0;
+            tabImages[k % 3].style.zIndex = 0;           
+            i++
+        });
+
+        document.addEventListener("keyup", function (event) {
+            if (event.code == "ArrowRight") {
+                var right = tabImages[i % 3];
+                var j = i + 1;
+                var k = i + 2;   
+                right.style.opacity = 1;
+                right.style.zIndex = 1;                
+                tabImages[k % 3].style.opacity = 0;
+                tabImages[j % 3].style.zIndex = 0;
+                tabImages[k % 3].style.zIndex = 0;                
+                i++
+            } else if (event.code == "ArrowLeft") {
+                var left = tabImages[++i % 3];
+                var j = i + 1;
+                var k = j + 1;     
+                left.style.opacity = 1;
+                left.style.zIndex = 1;     
+                tabImages[j % 3].style.opacity = 0;
+                tabImages[j % 3].style.zIndex = 0;
+                tabImages[k % 3].style.zIndex = 0;
+                i++
+            }
+        });
+
+        setInterval(function() {
+            var right = tabImages[i % 3];
+            var j = i + 1;
+            var k = i + 2;   
+            right.style.opacity = 1;
+            right.style.zIndex = 1;                
+            tabImages[k % 3].style.opacity = 0;
+            tabImages[j % 3].style.zIndex = 0;
+            tabImages[k % 3].style.zIndex = 0;                
+            i++
+        }, 10000)
+
+    </script>
+</body>
+</html>
